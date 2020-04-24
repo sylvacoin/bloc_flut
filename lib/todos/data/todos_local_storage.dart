@@ -17,9 +17,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// LocalStorageRepository.
 class TodosLocalStorage implements ITodosRepository {
   SharedPreferences storage;
-String key;
+  String key;
 
-   TodosLocalStorage()
+  TodosLocalStorage()
   {
     initStorage();
     key = 'appk3y';

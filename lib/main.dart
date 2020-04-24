@@ -6,6 +6,9 @@ import 'package:demo_flut/custom_bloc_delegate.dart';
 import 'package:demo_flut/home/home_page.dart';
 import 'package:demo_flut/login/login_page.dart';
 import 'package:demo_flut/splash/splash_page.dart';
+import 'package:demo_flut/todos/bloc/todos_bloc.dart';
+import 'package:demo_flut/todos/data/todos_local_storage.dart';
+import 'package:demo_flut/todos/data/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +23,13 @@ void main() {
             ..add(AuthenticationAppStarted());
         },
       ),
+      BlocProvider<TodosBloc>(create: (context) {
+        return TodosBloc(
+          todosRepository: TodosRepository(
+            localStorage: TodosLocalStorage(),
+          ),
+        )..add(TodosLoaded());
+      }),
     ],
     child: App(userRepository: userRepository),
   ));
