@@ -1,9 +1,10 @@
 import 'package:demo_flut/_general_widgets/delete_todo_snack_bar.dart';
-import 'package:demo_flut/_general_widgets/loading.dart';
+//import 'package:demo_flut/_general_widgets/loading.dart';
 import 'package:demo_flut/_general_widgets/todo_item.dart';
 import 'package:demo_flut/filtered_todos/bloc/filteredtodos_bloc.dart';
 import 'package:demo_flut/home/detail_screen.dart';
 import 'package:demo_flut/todos/bloc/todos_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +14,7 @@ class FilteredTodos extends StatelessWidget {
     return BlocBuilder<FilteredTodosBloc, FilteredTodosState>(
       builder: (context, state) {
         if (state is FilteredTodosLoadInProgress) {
-          return LoadingIndicator();
+          return Center(child: CupertinoActivityIndicator());
         } else if (state is FilteredTodosLoadSuccess) {
           final todos = state.filteredTodos;
           return ListView.builder(
