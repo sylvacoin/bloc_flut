@@ -4,6 +4,7 @@ import 'package:demo_flut/authentication/bloc/authentication_bloc.dart';
 import 'package:demo_flut/authentication/data/user_repository.dart';
 import 'package:demo_flut/custom_bloc_delegate.dart';
 import 'package:demo_flut/filtered_todos/bloc/filteredtodos_bloc.dart';
+import 'package:demo_flut/home/add_edit_screen.dart';
 import 'package:demo_flut/home/home_page.dart';
 import 'package:demo_flut/login/login_page.dart';
 import 'package:demo_flut/splash/splash_page.dart';
@@ -12,6 +13,7 @@ import 'package:demo_flut/tab/bloc/tab_bloc.dart';
 import 'package:demo_flut/todos/bloc/todos_bloc.dart';
 import 'package:demo_flut/todos/data/todos_local_storage.dart';
 import 'package:demo_flut/todos/data/todos_repository.dart';
+import 'package:demo_flut/todos/model/todo_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,18 +40,12 @@ void main() {
       }),
       BlocProvider<StatsBloc>(create: (context) {
         return StatsBloc(
-          todosBloc: TodosBloc(
-          todosRepository: TodosRepository(
-            localStorage: TodosLocalStorage(),
-          ),
-        )
+          todosBloc: BlocProvider.of<TodosBloc>(context)
         );
       }),
       BlocProvider<FilteredTodosBloc>(create: (context) {
         return FilteredTodosBloc(
-          todosBloc: TodosBloc(todosRepository: TodosRepository(
-            localStorage: TodosLocalStorage(),
-          ),)
+          todosBloc: BlocProvider.of<TodosBloc>(context)
         );
       }),
     ],
@@ -82,6 +78,18 @@ class App extends StatelessWidget {
           return Container();
         },
       ),
+      routes: {
+        '/addTodo': (context) {
+          return AddEditScreen(
+            onSave: (task, note) {
+              BlocProvider.of<TodosBloc>(context).add(
+                TodoAdded(Todo(task, note: note)),
+              );
+            },
+            isEditing: false,
+          );
+        },
+      },
     );
   }
 }

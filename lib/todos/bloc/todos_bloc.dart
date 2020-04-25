@@ -21,10 +21,21 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   Stream<TodosState> mapEventToState(
     TodosEvent event,
   ) async* {
-    if (event is TodosLoadSuccess) {
-      yield* _mapTodosLoadedToState();
+    if (event is TodosLoaded) {
+      
+        final todos = await this.todosRepository.loadTodos();
+        yield TodosLoadSuccess(todos);
+      
+      // try {
+      //   final todos = await this.todosRepository.loadTodos();
+      //   yield TodosLoadSuccess(todos);
+      // } catch (_) {
+      //   yield TodosLoadFailure();
+      // }
+      //yield _mapTodosLoadedToState();
     } else if (event is TodoAdded) {
-      yield* _mapTodoAddedToState(event);
+      
+      yield _mapTodoAddedToState(event);
     } else if (event is TodoUpdated) {
       yield* _mapTodoUpdatedToState(event);
     } else if (event is TodoDeleted) {

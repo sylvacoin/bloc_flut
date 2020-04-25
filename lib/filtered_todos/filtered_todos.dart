@@ -1,4 +1,5 @@
 import 'package:demo_flut/_general_widgets/delete_todo_snack_bar.dart';
+import 'package:demo_flut/_general_widgets/loading.dart';
 //import 'package:demo_flut/_general_widgets/loading.dart';
 import 'package:demo_flut/_general_widgets/todo_item.dart';
 import 'package:demo_flut/filtered_todos/bloc/filteredtodos_bloc.dart';
@@ -14,7 +15,7 @@ class FilteredTodos extends StatelessWidget {
     return BlocBuilder<FilteredTodosBloc, FilteredTodosState>(
       builder: (context, state) {
         if (state is FilteredTodosLoadInProgress) {
-          return Center(child: CupertinoActivityIndicator());
+          return Container(color: Colors.red);
         } else if (state is FilteredTodosLoadSuccess) {
           final todos = state.filteredTodos;
           return ListView.builder(
@@ -35,7 +36,7 @@ class FilteredTodos extends StatelessWidget {
                 onTap: () async {
                   final removedTodo = await Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) {
-                      return DetailScreen(id: todo.id);
+                      return DetailsScreen(id: todo.id);
                     }),
                   );
                   if (removedTodo != null) {
